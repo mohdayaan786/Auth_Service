@@ -42,7 +42,29 @@ const destroy = async (req, res) => {
     }
 }
 
+const signIn = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const response = await userService.signIn(email, password);
+        return res.status(200).json({
+            data: response,
+            success: true,
+            message: 'Succesfully signed in',
+            err: {}
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: 'Not able to sign in',
+            err: error
+        });
+    }
+}
+
 module.exports = {
     create,
-    destroy
+    destroy,
+    signIn
 }

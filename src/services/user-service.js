@@ -116,6 +116,16 @@ class UserService {
             throw err;
         }
     }
+    isAdmin(userId){
+        try{
+            const user = this.userRepository.isAdmin(userId);
+            return user;
+        }
+        catch(err){
+            console.log("something went wrong on user service");
+            throw err;
+        }
+    }
 }
 
 module.exports = UserService;

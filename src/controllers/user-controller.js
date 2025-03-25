@@ -84,7 +84,7 @@ const isAuthenticated = async (req, res) => {
     }
 }
 
-const isAdmin = async (req,res) => {
+const isAdmin = async (req, res) => {
     try {
         const response = await userService.isAdmin(req.body.id);
         return res.status(200).json({

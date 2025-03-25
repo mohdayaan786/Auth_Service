@@ -3,7 +3,7 @@ dotenv.config();
 
 const serverConfig = {
   port: process.env.PORT,
-  JWT_KEY : process.env.JWT_KEY
+  JWT_KEY: process.env.JWT_KEY
 };
 
 module.exports = serverConfig;

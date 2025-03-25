@@ -1,5 +1,5 @@
-const validateUserAuth = (req, res, next) => {   
-    if(!req.body.email || !req.body.password){
+const validateUserAuth = (req, res, next) => {
+    if (!req.body.email || !req.body.password) {
         return res.status(400).json({
             data: {},
             success: false,
@@ -11,7 +11,7 @@ const validateUserAuth = (req, res, next) => {
 }
 
 const validateIsAdminRequest = (req, res, next) => {
-    if(!req.body.id){
+    if (!req.body.id) {
         return res.status(403).json({
             data: {},
             success: false,

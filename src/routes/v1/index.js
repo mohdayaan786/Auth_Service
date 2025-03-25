@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const UserController = require('../../controllers/user-controller');
-const {authRequestValidators} = require('../../middlewares/index');
+const { authRequestValidators } = require('../../middlewares/index');
 
 router.post(
-    '/signUp', 
+    '/signUp',
     authRequestValidators.validateUserAuth,
     UserController.create
 );

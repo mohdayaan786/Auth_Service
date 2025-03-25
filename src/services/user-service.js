@@ -1,6 +1,6 @@
 const UserRepository = require("../repository/user-repository");
 const jwt = require('jsonwebtoken');
-const {JWT_KEY} = require('../config/serverConfig');
+const { JWT_KEY } = require('../config/serverConfig');
 const bcrypt = require('bcrypt');
 
 class UserService {
@@ -41,87 +41,87 @@ class UserService {
         }
     }
 
-     async signIn(email,plainPassword){
-        try{
+    async signIn(email, plainPassword) {
+        try {
             const user = await this.userRepository.getByEmail(email);
-            if(user){
+            if (user) {
                 const isPasswordCorrect = this.checkPassword(plainPassword, user.password);
-                if(isPasswordCorrect){
+                if (isPasswordCorrect) {
                     const token = this.createToken({
                         id: user.id,
                         email: user.email
                     });
-                    return {token, user};
+                    return { token, user };
                 }
-                else{
+                else {
                     throw new Error("Password is incorrect");
                 }
             }
-            else{
+            else {
                 throw new Error("User not found");
             }
         }
-        catch(err){
+        catch (err) {
             console.log("something went wrong on user service");
             throw err;
         }
-     }
+    }
 
-    createToken(user){
-        try{
-           const result = jwt.sign(user, JWT_KEY, {expiresIn: '1h'});
-           return result;
+    createToken(user) {
+        try {
+            const result = jwt.sign(user, JWT_KEY, { expiresIn: '1h' });
+            return result;
         }
-        catch(err){
+        catch (err) {
             console.log("something went wrong in token creation");
             throw err;
         }
     }
 
-    verifyToken(token){
-        try{
+    verifyToken(token) {
+        try {
             const result = jwt.verify(token, JWT_KEY);
             return result;
         }
-        catch(err){
+        catch (err) {
             console.log("something went wrong in token verification", err);
             throw err;
         }
     }
 
-    checkPassword(plainPassword, hashPassword){
-        try{
+    checkPassword(plainPassword, hashPassword) {
+        try {
             return bcrypt.compareSync(plainPassword, hashPassword);
         }
-        catch(err){
+        catch (err) {
             console.log("something went wrong in password verification");
             throw err;
         }
     }
 
-    async isAuthenticated(token){
-        try{
+    async isAuthenticated(token) {
+        try {
             const response = this.verifyToken(token);
-            if(!response){
-                throw {error : 'Invalid token'};
+            if (!response) {
+                throw { error: 'Invalid token' };
             }
             const user = await this.userRepository.getById(response.id);
-            if(!user){
-                throw {error : 'No user with the corresponding token exists'}
+            if (!user) {
+                throw { error: 'No user with the corresponding token exists' }
             }
             return user.id;
         }
-        catch(err){
+        catch (err) {
             console.log("something went wrong on user service");
             throw err;
         }
     }
-    isAdmin(userId){
-        try{
+    isAdmin(userId) {
+        try {
             const user = this.userRepository.isAdmin(userId);
             return user;
         }
-        catch(err){
+        catch (err) {
             console.log("something went wrong on user service");
             throw err;
         }
